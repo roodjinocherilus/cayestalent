@@ -64,7 +64,7 @@ export const event = {
 /* Règles de renvoi : doc 01 §3.1. */
 
 export const ecosystem = {
-  haitiTalentLab: 'https://haititalentlab.com',
+  haitiTalentLab: 'https://haititalentlab.cv',
   capTalentLab: 'https://captalentlab.com',
   hub: 'https://haititalenthub.com',
   /** Redirection directe candidature candidat (doc brief). */
