@@ -1,0 +1,179 @@
+---
+// Page Contact — Doc 03 §10. 3 contacts + formulaire général.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+import { ArrowRight } from '@lucide/astro';
+import {
+  contacts,
+  ecosystem,
+  formsConfigured,
+  formspreeEndpoint,
+} from '@/config/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contactez l'équipe Cayes Talent Lab : candidats, entreprises recruteuses, partenaires & médias."
+>
+  <PageHero
+    eyebrow="Contact"
+    title={'Parlons de <span class="text-sky">Cayes Talent Lab</span>'}
+    subtitle="Choisissez le bon interlocuteur, ou écrivez-nous directement."
+    ghost="CONTACT"
+  />
+
+  {/* 3 CONTACTS */}
+  <section class="section bg-white">
+    <div class="mx-auto grid max-w-[1100px] gap-6 md:grid-cols-3">
+      {
+        contacts.map((c, i) => (
+          <Card accent="sky" class={`fu ${i ? `fu-d${i}` : ''}`}>
+            <h2
+              class="font-display text-[18px] font-bold uppercase tracking-[0.04em] text-navy"
+              style="font-family: var(--font-display);"
+            >
+              {c.audience}
+            </h2>
+            <p class="mt-4 text-[14px] text-ink">{c.name}</p>
+            <a
+              href={`mailto:${c.email}`}
+              class="mt-1 block text-[14px] font-medium text-sky hover:underline"
+            >
+              {c.email}
+            </a>
+            <p class="mt-1 text-[14px] text-muted">{c.phone}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  {/* FORMULAIRE GÉNÉRAL */}
+  <section class="section bg-section">
+    <div class="mx-auto max-w-[720px]">
+      <div class="eyebrow fu">Formulaire général</div>
+      <h2 class="h-section fu">Écrivez-nous</h2>
+
+      <form
+        class="js-contact mt-9 flex flex-col gap-4 fu"
+        action={formspreeEndpoint || undefined}
+        method="POST"
+      >
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label class="sr-only" for="c-nom">Nom</label>
+            <input id="c-nom" name="nom" required placeholder="Nom" class="field" />
+          </div>
+          <div>
+            <label class="sr-only" for="c-email">E-mail</label>
+            <input
+              id="c-email"
+              type="email"
+              name="email"
+              required
+              placeholder="E-mail"
+              class="field"
+            />
+          </div>
+        </div>
+        <div>
+          <label class="sr-only" for="c-org">Organisation</label>
+          <input
+            id="c-org"
+            name="organisation"
+            placeholder="Organisation"
+            class="field"
+          />
+        </div>
+        <div>
+          <label class="sr-only" for="c-type">Type de demande</label>
+          <select id="c-type" name="type" class="field" required>
+            <option value="" disabled selected>Type de demande</option>
+            <option>Candidat</option>
+            <option>Entreprise</option>
+            <option>Partenariat</option>
+            <option>Presse</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div>
+          <label class="sr-only" for="c-msg">Message</label>
+          <textarea
+            id="c-msg"
+            name="message"
+            required
+            rows="5"
+            placeholder="Votre message"
+            class="field resize-y"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary self-start">
+          Envoyer <ArrowRight class="h-4 w-4" />
+        </button>
+      </form>
+      {
+        !formsConfigured && (
+          <p class="mt-3 text-[12px] italic text-muted">
+            Envoi bientôt actif (configuration e-mail en attente). En
+            attendant, écrivez directement aux adresses ci-dessus.
+          </p>
+        )
+      }
+      <p class="js-contact-ok mt-3 hidden text-[14px] font-medium text-sky">
+        Merci ! Votre message a bien été envoyé.
+      </p>
+    </div>
+  </section>
+
+  {/* ADRESSE + RENVOI NATIONAL */}
+  <section class="section bg-white">
+    <div class="mx-auto grid max-w-[1000px] gap-6 md:grid-cols-2">
+      <Card class="fu">
+        <div class="eyebrow">Adresse — Les Cayes</div>
+        <p class="text-[15px] leading-[1.7] text-ink">
+          [Adresse locale Cayes — si présence physique]
+        </p>
+      </Card>
+      <Card class="fu fu-d1">
+        <div class="eyebrow">Partenariats nationaux</div>
+        <p class="text-[15px] leading-[1.7] text-ink">
+          Pour les partenariats nationaux, contactez l'équipe du programme.
+        </p>
+        <a
+          href={`${ecosystem.haitiTalentLab}/contact`}
+          target="_blank"
+          rel="noopener"
+          class="mt-4 inline-flex items-center gap-2 font-semibold text-sky hover:underline"
+        >
+          Contact national <ArrowRight class="h-4 w-4" />
+        </a>
+      </Card>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>('.js-contact')) {
+    form.addEventListener('submit', async (e) => {
+      if (!form.action) {
+        e.preventDefault();
+        return;
+      }
+      e.preventDefault();
+      const ok = document.querySelector('.js-contact-ok');
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          form.reset();
+          ok?.classList.remove('hidden');
+        }
+      } catch {
+        /* silencieux */
+      }
+    });
+  }
+</script>

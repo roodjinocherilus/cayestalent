@@ -1,0 +1,151 @@
+---
+import { nav, primaryCta } from '@/config/site';
+import Logo from './Logo.astro';
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-[100] flex h-[70px] items-center justify-between transition-[background,backdrop-filter] duration-300"
+  style="padding-inline: 5vw;"
+>
+  <Logo />
+
+  <nav aria-label="Navigation principale" class="contents">
+    <ul
+      id="nav-links"
+      class="hidden items-center gap-7 lg:flex"
+    >
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'text-[12px] font-medium uppercase tracking-[0.08em] transition-colors',
+                isActive(item.href)
+                  ? 'text-white'
+                  : 'text-white/65 hover:text-white',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="flex items-center gap-3">
+    <a
+      href={primaryCta.href}
+      class="hidden rounded-[4px] bg-orange px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-white transition-colors hover:bg-orange-dark lg:inline-flex"
+    >
+      {primaryCta.label}
+    </a>
+
+    <button
+      type="button"
+      id="nav-burger"
+      class="flex flex-col gap-[5px] p-1.5 lg:hidden"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="nav-links"
+    >
+      <span
+        class="block h-[2px] w-[22px] rounded-[2px] bg-white transition-transform duration-200"
+      ></span>
+      <span
+        class="block h-[2px] w-[22px] rounded-[2px] bg-white transition-opacity duration-200"
+      ></span>
+      <span
+        class="block h-[2px] w-[22px] rounded-[2px] bg-white transition-transform duration-200"
+      ></span>
+    </button>
+  </div>
+</header>
+
+<!-- Panneau de navigation mobile -->
+<div
+  id="mobile-panel"
+  class="fixed inset-x-0 top-[70px] z-[99] -translate-y-[120%] border-t border-white/10 bg-navy opacity-0 transition-[transform,opacity] duration-300 lg:hidden"
+  style="padding: 24px 6vw 32px;"
+>
+  <ul class="flex flex-col">
+    {
+      nav.map((item) => (
+        <li class="border-b border-white/[0.06]">
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'block py-4 text-[14px] font-medium uppercase tracking-[0.06em] transition-colors',
+              isActive(item.href) ? 'text-orange' : 'text-white/75 hover:text-white',
+            ]}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+    <li class="pt-3">
+      <a
+        href={primaryCta.href}
+        class="block rounded-[6px] bg-orange py-3.5 text-center text-[13px] font-semibold uppercase tracking-[0.06em] text-white"
+      >
+        {primaryCta.label}
+      </a>
+    </li>
+  </ul>
+</div>
+
+<script>
+  const header = document.getElementById('site-header');
+  const burger = document.getElementById('nav-burger');
+  const panel = document.getElementById('mobile-panel');
+  let open = false;
+
+  const syncHeaderBg = () => {
+    const solid = open || window.scrollY > 8;
+    header?.classList.toggle('bg-navy', solid);
+    header?.classList.toggle('shadow-[0_1px_0_rgba(255,255,255,0.06)]', solid);
+  };
+
+  const setOpen = (next: boolean) => {
+    open = next;
+    burger?.classList.toggle('is-open', open);
+    burger?.setAttribute('aria-expanded', String(open));
+    burger?.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    if (panel) {
+      panel.style.transform = open ? 'translateY(0)' : 'translateY(-120%)';
+      panel.style.opacity = open ? '1' : '0';
+      panel.style.pointerEvents = open ? 'auto' : 'none';
+    }
+    // Animation burger → croix
+    const bars = burger?.querySelectorAll('span');
+    if (bars && bars.length === 3) {
+      (bars[0] as HTMLElement).style.transform = open
+        ? 'translateY(7px) rotate(45deg)'
+        : '';
+      (bars[1] as HTMLElement).style.opacity = open ? '0' : '1';
+      (bars[2] as HTMLElement).style.transform = open
+        ? 'translateY(-7px) rotate(-45deg)'
+        : '';
+    }
+    syncHeaderBg();
+  };
+
+  burger?.addEventListener('click', () => setOpen(!open));
+  panel?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && open) setOpen(false);
+  });
+  window.addEventListener('scroll', syncHeaderBg, { passive: true });
+  syncHeaderBg();
+</script>

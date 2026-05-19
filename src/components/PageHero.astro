@@ -1,0 +1,91 @@
+---
+/** Hero de page interne (navy, signature captalentlab). */
+import { ArrowRight } from '@lucide/astro';
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'outline';
+  external?: boolean;
+}
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  note?: string;
+  ctas?: Cta[];
+  ghost?: string;
+}
+const { eyebrow, title, subtitle, note, ctas = [], ghost } = Astro.props;
+---
+
+<section
+  class="on-dark relative overflow-hidden bg-navy"
+  style="padding: 150px 6vw 88px;"
+>
+  <div
+    class="pointer-events-none absolute inset-0 z-0"
+    style="background: linear-gradient(to bottom, rgba(0,20,60,0.55) 0%, rgba(0,15,45,0.9) 100%);"
+  >
+  </div>
+  {
+    ghost && (
+      <span
+        class="pointer-events-none absolute right-[-2vw] top-1/2 z-0 -translate-y-1/2 select-none font-display font-extrabold leading-none text-white/[0.025]"
+        style="font-family: var(--font-display); font-size: clamp(90px, 16vw, 220px);"
+        aria-hidden="true"
+      >
+        {ghost}
+      </span>
+    )
+  }
+  <div
+    class="absolute inset-x-0 bottom-0 z-[2] h-[5px]"
+    style="background: linear-gradient(90deg, var(--color-orange) 0%, var(--color-sky) 100%);"
+  >
+  </div>
+
+  <div class="relative z-[1] mx-auto max-w-[1100px]">
+    <div class="eyebrow fu">{eyebrow}</div>
+    <h1
+      class="fu fu-d1 font-display font-extrabold text-white"
+      style="font-family: var(--font-display); font-size: clamp(36px, 5.4vw, 76px); line-height:1; letter-spacing:-0.01em;"
+      set:html={title}
+    />
+    {
+      subtitle && (
+        <p class="fu fu-d2 mt-6 max-w-[680px] text-[17px] leading-[1.7] text-white/55">
+          {subtitle}
+        </p>
+      )
+    }
+    {
+      note && (
+        <p class="fu fu-d2 mt-3 text-[13px] font-medium uppercase tracking-[0.1em] text-sky-light">
+          {note}
+        </p>
+      )
+    }
+    {
+      ctas.length > 0 && (
+        <div class="fu fu-d3 mt-9 flex flex-wrap gap-3">
+          {ctas.map((c) => (
+            <a
+              href={c.href}
+              {...(c.external ? { target: '_blank', rel: 'noopener' } : {})}
+              class:list={[
+                'btn',
+                c.variant === 'outline'
+                  ? 'btn-outline on-dark'
+                  : 'btn-primary',
+              ]}
+            >
+              {c.label}
+              {c.variant !== 'outline' && <ArrowRight class="h-4 w-4" />}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

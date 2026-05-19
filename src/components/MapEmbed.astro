@@ -1,0 +1,78 @@
+---
+/**
+ * Carte intégrée — OpenStreetMap (iframe, sans clé API, OK GitHub Pages).
+ * Centrée sur Les Cayes tant que le lieu exact n'est pas confirmé
+ * (event.mapConfirmed). Pilotable depuis src/config/site.ts.
+ */
+import { MapPin, ExternalLink } from '@lucide/astro';
+import { event } from '@/config/site';
+
+interface Props {
+  lat?: number;
+  lng?: number;
+  query?: string;
+  class?: string;
+}
+const {
+  lat = event.mapLat,
+  lng = event.mapLng,
+  query = event.mapQuery,
+  class: className = '',
+} = Astro.props;
+
+// Emprise (bbox) autour du point — assez serrée pour bien voir la ville.
+const d = 0.035;
+const bbox = [lng - d, lat - d, lng + d, lat + d]
+  .map((n) => n.toFixed(5))
+  .join('%2C');
+const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}`;
+const osmLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=14/${lat}/${lng}`;
+const gmapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+---
+
+<figure
+  class:list={[
+    'overflow-hidden rounded-[12px] border border-line bg-section',
+    className,
+  ]}
+>
+  <iframe
+    src={embedSrc}
+    title={`Carte — ${query}`}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    class="block h-[320px] w-full border-0 sm:h-[400px]"></iframe>
+  <figcaption
+    class="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-white px-5 py-3.5"
+  >
+    <span class="inline-flex items-center gap-2 text-[13px] text-navy">
+      <MapPin class="h-4 w-4 text-orange" />
+      {query}
+      {
+        !event.mapConfirmed && (
+          <span class="text-[12px] italic text-muted">
+            — lieu exact à confirmer
+          </span>
+        )
+      }
+    </span>
+    <span class="flex gap-4 text-[12px] font-semibold uppercase tracking-[0.08em]">
+      <a
+        href={gmapsLink}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-1.5 text-sky transition-colors hover:text-navy"
+      >
+        Google Maps <ExternalLink class="h-3.5 w-3.5" />
+      </a>
+      <a
+        href={osmLink}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-1.5 text-sky transition-colors hover:text-navy"
+      >
+        OpenStreetMap <ExternalLink class="h-3.5 w-3.5" />
+      </a>
+    </span>
+  </figcaption>
+</figure>

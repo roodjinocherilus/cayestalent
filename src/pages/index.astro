@@ -1,0 +1,343 @@
+---
+// Page d'accueil — landing événementielle. 10 sections, doc 03 §3.
+// Copy reprise du doc 03 à l'identique.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CountdownTimer from '@/components/CountdownTimer.astro';
+import PreuveSociale from '@/components/PreuveSociale.astro';
+import DoubleCta from '@/components/DoubleCta.astro';
+import BandeauPartenaires from '@/components/BandeauPartenaires.astro';
+import Newsletter from '@/components/Newsletter.astro';
+import { ArrowRight } from '@lucide/astro';
+import {
+  event,
+  ecosystem,
+  nationalCalendar,
+  primaryCta,
+  eventSchema,
+} from '@/config/site';
+---
+
+<BaseLayout schema={eventSchema}>
+  {/* ─── 3.1 HERO ÉVÉNEMENTIEL ─── */}
+  <section
+    class="on-dark relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-navy"
+    style="padding: 110px 6vw 9vh;"
+  >
+    <div
+      class="pointer-events-none absolute inset-0 z-0"
+      style="background: linear-gradient(to bottom, rgba(0,20,60,0.78) 0%, rgba(0,30,70,0.72) 40%, rgba(0,15,45,0.97) 100%);"
+    >
+    </div>
+    <span
+      class="pointer-events-none absolute left-[-1vw] top-1/2 z-0 -translate-y-1/2 select-none font-display font-extrabold leading-none text-white/[0.025]"
+      style="font-family: var(--font-display); font-size: clamp(110px, 20vw, 280px); letter-spacing:-0.02em;"
+      aria-hidden="true">CAYES</span
+    >
+    <div
+      class="absolute inset-x-0 bottom-0 z-[2] h-[5px]"
+      style="background: linear-gradient(90deg, var(--color-orange) 0%, var(--color-sky) 100%);"
+    >
+    </div>
+
+    <div class="relative z-[1] w-full max-w-[1180px]">
+      <div
+        class="fu mb-7 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-orange"
+      >
+        <span class="flex gap-[5px]" aria-hidden="true">
+          <span class="block h-[7px] w-[7px] rounded-[1px] bg-orange"></span>
+          <span class="block h-[7px] w-[7px] rounded-[1px] bg-orange"></span>
+          <span class="block h-[7px] w-[7px] rounded-[1px] bg-orange"></span>
+        </span>
+         Une édition du Haiti Talent Lab
+      </div>
+
+      <h1
+        class="fu fu-d1 font-display font-extrabold text-white"
+        style="font-family: var(--font-display); font-size: clamp(46px, 6.6vw, 104px); line-height:0.95; margin-bottom:36px;"
+      >
+        La 1ʳᵉ édition nationale du Haiti Talent Lab<br />arrive
+        <span class="text-sky">aux Cayes</span>.
+      </h1>
+
+      <div class="fu fu-d2 flex flex-col gap-7">
+        <div class="flex flex-col gap-1.5">
+          <span
+            class="font-display text-[16px] font-bold tracking-[0.04em] text-white"
+            style="font-family: var(--font-display);"
+          >
+            📅 {event.dateLabel}
+          </span>
+          <span class="text-[14px] tracking-[0.04em] text-sky-light">
+            📍 {event.locationLabel}
+          </span>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href={primaryCta.href} class="btn btn-primary">
+            Postuler maintenant <ArrowRight class="h-4 w-4" />
+          </a>
+          <a href="/entreprises" class="btn btn-outline on-dark">
+            Recruter avec nous
+          </a>
+        </div>
+        <CountdownTimer />
+      </div>
+    </div>
+  </section>
+
+  {/* ─── 3.2 POURQUOI LES CAYES ─── */}
+  {/* ⚠ Arguments « population jeune diplômée », « tissu économique »,
+       « demande forte » à valider avec ZLC sur données réelles (doc 03 §3.2). */}
+  <section class="section bg-section">
+    <div class="mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-2 lg:items-center">
+      <div>
+        <div class="eyebrow fu">Pourquoi Les Cayes ?</div>
+        <h2 class="h-section fu">
+          Les Cayes ouvre le déploiement national du Haiti Talent Lab.
+          Et ce n'est pas un hasard.
+        </h2>
+        <p class="mt-6 text-[16px] font-medium text-navy fu">
+          Le Grand Sud concentre :
+        </p>
+        <ul class="mt-4 flex flex-col gap-3 fu">
+          {
+            [
+              'Une population jeune et diplômée en croissance',
+              'Un tissu économique en redéploiement après les crises',
+              'Une demande forte des entreprises locales pour des profils qualifiés',
+            ].map((t) => (
+              <li class="flex gap-3">
+                <span
+                  class="mt-2 block h-2 w-2 shrink-0 rounded-full bg-sky"
+                  aria-hidden="true"
+                />
+                <span class="text-[16px] leading-[1.7] text-ink">{t}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-7 text-[17px] leading-[1.7] text-navy fu">
+          Ce que le pilote de Cap-Haïtien a démontré dans le Nord, Cayes
+          Talent Lab va le reproduire dans le Sud : un pont structuré entre
+          talents et opportunités.
+        </p>
+      </div>
+      <div
+        class="fu fu-d1 flex aspect-[4/3] items-center justify-center rounded-[12px] border border-dashed border-navy/15 bg-white text-center"
+      >
+        <span
+          class="max-w-[260px] px-6 text-[12px] font-semibold uppercase tracking-[0.12em] text-navy/25"
+        >
+          Illustration — carte du Grand Sud d'Haïti, Les Cayes mise en valeur
+        </span>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── 3.3 BANDEAU DE PREUVE (Bloc #1 condensé) ─── */}
+  <PreuveSociale />
+
+  {/* ─── 3.4 DOUBLE CTA AUDIENCE (adapté local) ─── */}
+  <DoubleCta
+    title="Participez aux Cayes"
+    cards={[
+      {
+        title: 'Vous êtes un talent ?',
+        lead: "Jeune diplômé, professionnel, ou en recherche d'opportunité dans le Sud d'Haïti — Cayes Talent Lab est pour vous.",
+        bullets: [
+          'Postulez gratuitement',
+          'Préparez-vous (ateliers)',
+          'Rencontrez les recruteurs',
+        ],
+        note: `Candidatures jusqu'au ${event.applicationDeadlineLabel}`,
+        ctaLabel: 'Postuler maintenant',
+        ctaHref: primaryCta.href,
+      },
+      {
+        title: 'Vous êtes une entreprise du Sud ?',
+        lead: 'Vous cherchez à recruter des profils qualifiés ? Rencontrez en 2 jours des dizaines de candidats présélectionnés.',
+        bullets: [
+          'Présélection gérée par ZLC',
+          'Entretiens sur place',
+          'Suivi post-événement',
+        ],
+        ctaLabel: 'Devenir recruteur',
+        ctaHref: '/entreprises',
+      },
+    ]}
+  />
+
+  {/* ─── 3.5 LE PROGRAMME (aperçu jour J) ─── */}
+  <section class="section bg-white">
+    <div class="mx-auto max-w-[1000px]">
+      <div class="eyebrow fu">Deux jours, un objectif</div>
+      <h2 class="h-section fu">Le programme en aperçu</h2>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {
+          [
+            {
+              j: 'Jour 1',
+              items: [
+                "Conférence d'ouverture",
+                'Panel d’experts & recruteurs',
+                'Lancement des entretiens',
+              ],
+            },
+            {
+              j: 'Jour 2',
+              items: [
+                'Ateliers de préparation',
+                'Entretiens directs candidats / entreprises',
+                'Clôture & suivi',
+              ],
+            },
+          ].map((d, i) => (
+            <div class:list={['card p-8 fu', i === 1 && 'fu-d1']}>
+              <span
+                class="font-display text-[14px] font-extrabold uppercase tracking-[0.16em] text-orange"
+                style="font-family: var(--font-display);"
+              >
+                {d.j}
+              </span>
+              <ul class="mt-5 flex flex-col gap-3">
+                {d.items.map((it) => (
+                  <li class="flex items-start gap-3 text-[15px] text-navy">
+                    <span
+                      class="mt-2 block h-1.5 w-1.5 shrink-0 rounded-full bg-sky"
+                      aria-hidden="true"
+                    />
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-9 fu">
+        <a href="/programme" class="btn btn-outline">
+          Voir le programme complet <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── 3.6 PARTENAIRES LOCAUX (Bloc #5) ─── */}
+  <BandeauPartenaires />
+
+  {/* ─── 3.7 LE CONTEXTE NATIONAL ─── */}
+  <section class="section on-dark bg-navy">
+    <div class="mx-auto max-w-[1100px]">
+      <div class="eyebrow fu">Cayes ouvre le bal</div>
+      <h2 class="h-section fu max-w-[760px]">
+        Cayes Talent Lab n'est pas un événement isolé.
+      </h2>
+      <p class="mt-5 max-w-[640px] text-[16px] leading-[1.7] text-white/55 fu">
+        C'est la 1ʳᵉ étape du Haiti Talent Lab — un programme national qui
+        se déploiera sur 6 villes en 12 mois.
+      </p>
+
+      <div class="mt-10 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          nationalCalendar.map((c) => (
+            <div
+              class:list={[
+                'rounded-[10px] border p-5 fu',
+                c.status === 'current'
+                  ? 'border-orange bg-orange/[0.07]'
+                  : 'border-white/10 bg-white/[0.02]',
+              ]}
+            >
+              <div class="flex items-center justify-between gap-2">
+                <span
+                  class="font-display text-[19px] font-bold text-white"
+                  style="font-family: var(--font-display);"
+                >
+                  📍 {c.city}
+                </span>
+                {c.status === 'current' && (
+                  <span class="rounded-[3px] bg-orange/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-orange">
+                    Vous êtes ici
+                  </span>
+                )}
+              </div>
+              <span class="mt-1 block text-[13px] text-sky-light">
+                {c.dateLabel}
+              </span>
+              <span class="mt-2 block text-[12px] uppercase tracking-[0.1em] text-white/30">
+                {c.note}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 fu">
+        <a
+          href={ecosystem.haitiTalentLab}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline on-dark"
+        >
+          Découvrir le programme national <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── 3.8 LE HAITI TALENT HUB (passerelle) ─── */}
+  <section class="section bg-white">
+    <div class="mx-auto max-w-[1000px]">
+      <div class="eyebrow fu">Avant, pendant, après l'événement</div>
+      <h2 class="h-section fu">Le Haiti Talent Hub</h2>
+      <p class="mt-5 max-w-[640px] text-[16px] leading-[1.7] text-ink fu">
+        Que vous soyez candidat ou entreprise, votre relation avec Cayes
+        Talent Lab ne s'arrête pas le jour J.
+      </p>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        <div class="card p-8 fu">
+          <h3
+            class="font-display text-[18px] font-bold uppercase tracking-[0.06em] text-navy"
+            style="font-family: var(--font-display);"
+          >
+            Pour les talents
+          </h3>
+          <ul class="mt-5 flex flex-col gap-3 text-[15px] text-ink">
+            <li>• Inscrivez-vous sur le Hub avant de postuler</li>
+            <li>• Faites certifier vos compétences</li>
+            <li>• Restez visible des recruteurs toute l'année</li>
+          </ul>
+        </div>
+        <div class="card p-8 fu fu-d1">
+          <h3
+            class="font-display text-[18px] font-bold uppercase tracking-[0.06em] text-navy"
+            style="font-family: var(--font-display);"
+          >
+            Pour les entreprises
+          </h3>
+          <ul class="mt-5 flex flex-col gap-3 text-[15px] text-ink">
+            <li>• Accédez à un vivier qualifié au-delà de l'événement</li>
+            <li>• Continuez à recruter entre les éditions</li>
+            <li>• Publiez vos offres en continu</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-9 fu">
+        <a
+          href={ecosystem.hub}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+        >
+          Aller sur Haiti Talent Hub <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── 3.9 NEWSLETTER (Bloc #6) ─── */}
+  <Newsletter />
+</BaseLayout>

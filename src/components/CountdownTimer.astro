@@ -1,0 +1,71 @@
+---
+/**
+ * Compte à rebours dynamique JS basé sur EVENT_DATE (src/config/site.ts).
+ * Doc 03 §3.1 : « XX jours / XX heures / XX minutes ».
+ * Tant que la date n'est pas confirmée, un libellé discret le signale.
+ */
+import { event } from '@/config/site';
+const units = [
+  { key: 'j', label: 'Jours' },
+  { key: 'h', label: 'Heures' },
+  { key: 'm', label: 'Minutes' },
+  { key: 's', label: 'Secondes' },
+];
+---
+
+<div
+  class="countdown inline-flex flex-col gap-3"
+  data-target={event.dateISO}
+  role="timer"
+  aria-label="Compte à rebours avant l'événement"
+>
+  <div class="flex gap-2.5 sm:gap-3">
+    {
+      units.map((u) => (
+        <div class="min-w-[64px] rounded-[8px] border border-white/10 bg-white/[0.04] px-3 py-3 text-center sm:min-w-[78px] sm:px-4">
+          <span
+            class="cd-val block font-display text-[26px] font-extrabold leading-none text-white sm:text-[34px]"
+            style="font-family: var(--font-display);"
+            data-u={u.key}
+          >
+            --
+          </span>
+          <span class="mt-1.5 block text-[9px] font-semibold uppercase tracking-[0.14em] text-white/45 sm:text-[10px]">
+            {u.label}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+  {
+    !event.dateConfirmed && (
+      <span class="text-[11px] italic text-sky-light/70">
+        Date provisoire — à confirmer
+      </span>
+    )
+  }
+</div>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('.countdown')) {
+    const target = new Date(el.dataset.target || '').getTime();
+    const vals = el.querySelectorAll<HTMLElement>('.cd-val');
+    const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
+    const tick = () => {
+      const d = Math.max(0, target - Date.now());
+      const s = Math.floor(d / 1000);
+      const map: Record<string, string> = {
+        j: String(Math.floor(s / 86400)),
+        h: pad(Math.floor((s % 86400) / 3600)),
+        m: pad(Math.floor((s % 3600) / 60)),
+        s: pad(s % 60),
+      };
+      vals.forEach((v) => {
+        const k = v.dataset.u || '';
+        if (map[k] !== undefined) v.textContent = map[k];
+      });
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>

@@ -1,0 +1,178 @@
+---
+// Page Candidats — page critique conversion. Doc 03 §5. Copy verbatim.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import TimelineEvent from '@/components/TimelineEvent.astro';
+import Faq from '@/components/Faq.astro';
+import Card from '@/components/Card.astro';
+import { ArrowRight, Check } from '@lucide/astro';
+import { event, ecosystem } from '@/config/site';
+
+const concernes = [
+  'Jeunes diplômés',
+  'Professionnels en poste cherchant à évoluer',
+  'Personnes en recherche active d’emploi',
+  'Toutes filières : ingénierie, gestion, santé, éducation, IT, artisanat, agriculture, services…',
+  'Tous niveaux d’expérience',
+];
+const gains = [
+  'Préparation gratuite (ateliers + simulations entretien)',
+  'Accès direct aux recruteurs (sans intermédiaire ni frais)',
+  'Profil vérifié = crédibilité renforcée auprès des employeurs',
+  'Suivi post-événement et restant visible sur le Hub',
+];
+const parcours = [
+  { title: 'Inscription sur le Hub' },
+  { title: 'Candidature à Cayes Talent Lab' },
+  { title: 'Présélection par notre équipe' },
+  { title: 'Confirmation de participation' },
+  { title: 'Préparation aux entretiens (J-15 à J)' },
+  { title: '2 jours d’entretiens directs' },
+  { title: 'Suivi du placement' },
+];
+const faq = [
+  { q: 'C’est gratuit ?' },
+  { q: 'Combien de places ?' },
+  { q: 'Quand connaît-on les résultats de présélection ?' },
+  { q: 'Quels secteurs sont représentés ?' },
+  { q: 'Faut-il habiter Les Cayes ?' },
+];
+---
+
+<BaseLayout
+  title="Candidats"
+  description="Si vous êtes un talent du Sud d'Haïti, Cayes Talent Lab est votre porte d'entrée vers les entreprises qui recrutent vraiment. Participation gratuite pour les candidats présélectionnés."
+>
+  <PageHero
+    eyebrow="Candidats"
+    title={'Votre prochaine opportunité <span class="text-sky">commence ici</span>.'}
+    subtitle="Si vous êtes un talent du Sud d'Haïti — jeune diplômé, professionnel ou en recherche d'emploi — Cayes Talent Lab est votre porte d'entrée vers les entreprises qui recrutent vraiment. Participation gratuite pour les candidats présélectionnés."
+    note={`Candidatures ouvertes jusqu'au ${event.applicationDeadlineLabel}`}
+    ghost="TALENT"
+    ctas={[
+      {
+        label: 'Postuler maintenant',
+        href: ecosystem.hubCandidateSignup,
+        external: true,
+      },
+    ]}
+  />
+
+  {/* QUI EST CONCERNÉ ? */}
+  <section class="section bg-white">
+    <div class="mx-auto max-w-[900px]">
+      <div class="eyebrow fu">Qui est concerné ?</div>
+      <h2 class="h-section fu">Cayes Talent Lab est pour vous si…</h2>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2 fu">
+        {
+          concernes.map((c) => (
+            <li class="flex items-start gap-3 text-[16px] leading-[1.6] text-navy">
+              <Check class="mt-0.5 h-5 w-5 shrink-0 text-sky" />
+              <span>{c}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {/* CE QUE VOUS Y GAGNEZ */}
+  <section class="section bg-section">
+    <div class="mx-auto max-w-[1100px]">
+      <div class="eyebrow fu">Ce que vous y gagnez</div>
+      <h2 class="h-section fu">Quatre raisons de postuler</h2>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          gains.map((g, i) => (
+            <Card accent="sky" class={`fu ${i ? `fu-d${i}` : ''}`}>
+              <span
+                class="font-display text-[34px] font-extrabold text-navy/15"
+                style="font-family: var(--font-display);"
+              >
+                0{i + 1}
+              </span>
+              <p class="mt-3 text-[15px] font-medium leading-[1.55] text-navy">
+                {g}
+              </p>
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* LE PARCOURS CANDIDAT */}
+  <section class="section bg-white">
+    <div class="mx-auto max-w-[760px]">
+      <div class="eyebrow fu">Le parcours candidat</div>
+      <h2 class="h-section fu">De l'inscription au placement</h2>
+      <div class="mt-10">
+        <TimelineEvent steps={parcours} tone="light" />
+      </div>
+    </div>
+  </section>
+
+  {/* TÉMOIGNAGES */}
+  <section class="section bg-section">
+    <div class="mx-auto max-w-[1100px]">
+      <div class="eyebrow fu">Témoignages — Candidats Cap Talent Lab</div>
+      <h2 class="h-section fu">Ils sont passés par là</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {
+          [0, 1, 2].map((i) => (
+            <Card class={`fu ${i ? `fu-d${i}` : ''}`}>
+              <div class="flex items-center gap-4">
+                <div
+                  class="h-14 w-14 shrink-0 rounded-full border border-dashed border-navy/20 bg-white"
+                  aria-hidden="true"
+                />
+                <div>
+                  <span class="block text-[14px] font-semibold text-navy">
+                    [Nom]
+                  </span>
+                  <span class="block text-[12px] text-muted">
+                    [Fonction obtenue]
+                  </span>
+                </div>
+              </div>
+              <p class="mt-5 text-[14px] italic leading-[1.7] text-ink">
+                « [Citation à recueillir auprès de ZLC] »
+              </p>
+            </Card>
+          ))
+        }
+      </div>
+      <p class="mt-4 text-[12px] italic text-muted fu">
+        2-3 témoignages de candidats placés au pilote — à recueillir.
+      </p>
+    </div>
+  </section>
+
+  {/* FAQ */}
+  <Faq eyebrow="FAQ Candidats" title="Vos questions" items={faq} />
+
+  {/* CTA FINAL */}
+  <section class="section on-dark bg-navy">
+    <div class="mx-auto max-w-[760px] text-center">
+      <h2 class="h-section fu">Prêt à tenter votre chance ?</h2>
+      <div class="mt-8 flex flex-wrap justify-center gap-3 fu">
+        <a
+          href={ecosystem.hubCandidateSignup}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+        >
+          Postuler maintenant <ArrowRight class="h-4 w-4" />
+        </a>
+        <a
+          href={ecosystem.hub}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline on-dark"
+        >
+          S'inscrire d'abord sur le Hub
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,74 @@
+---
+/**
+ * Bloc #4 — CTA double audience. Doc 01 §4 / doc 03 §3.4 (variante locale).
+ * Copy passée en props (reprise du doc 03 à l'identique côté appelant).
+ */
+import { ArrowRight, Check } from '@lucide/astro';
+
+interface CtaCard {
+  title: string;
+  lead: string;
+  bullets: string[];
+  note?: string;
+  ctaLabel: string;
+  ctaHref: string;
+  external?: boolean;
+}
+interface Props {
+  title: string;
+  eyebrow?: string;
+  cards: CtaCard[];
+}
+const { title, eyebrow, cards } = Astro.props;
+---
+
+<section class="section bg-white">
+  <div class="mx-auto max-w-[1100px]">
+    {eyebrow && <div class="eyebrow fu">{eyebrow}</div>}
+    <h2 class="h-section fu">{title}</h2>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2">
+      {
+        cards.map((c, i) => (
+          <div
+            class:list={[
+              'card flex flex-col p-8 sm:p-10',
+              'fu',
+              i === 1 && 'fu-d1',
+            ]}
+          >
+            <h3
+              class="font-display text-[22px] font-bold text-navy sm:text-[26px]"
+              style="font-family: var(--font-display);"
+            >
+              {c.title}
+            </h3>
+            <div class="mt-3 h-[3px] w-12 bg-orange" aria-hidden="true" />
+            <p class="mt-5 text-[15px] leading-[1.7] text-ink">{c.lead}</p>
+            <ul class="mt-6 flex flex-col gap-3">
+              {c.bullets.map((b) => (
+                <li class="flex items-start gap-2.5 text-[14px] text-navy">
+                  <Check class="mt-0.5 h-4 w-4 shrink-0 text-sky" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+            {c.note && (
+              <p class="mt-5 text-[13px] font-medium text-muted">{c.note}</p>
+            )}
+            <div class="mt-auto pt-8">
+              <a
+                href={c.ctaHref}
+                {...(c.external ? { target: '_blank', rel: 'noopener' } : {})}
+                class="btn btn-primary"
+              >
+                {c.ctaLabel}
+                <ArrowRight class="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

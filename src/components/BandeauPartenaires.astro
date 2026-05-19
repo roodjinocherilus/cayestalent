@@ -1,0 +1,48 @@
+---
+/** Bloc #5 — Bandeau partenaires (logos). Doc 01 §4 / doc 03 §3.6. */
+import { ArrowRight } from '@lucide/astro';
+
+interface Props {
+  title?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  count?: number;
+}
+const {
+  title = 'Nos partenaires pour Cayes',
+  ctaLabel = 'Devenir partenaire de Cayes Talent Lab',
+  ctaHref = '/partenaires',
+  count = 6,
+} = Astro.props;
+const slots = Array.from({ length: count });
+---
+
+<section class="section bg-section">
+  <div class="mx-auto max-w-[1100px] text-center">
+    <div class="eyebrow justify-center fu">{title}</div>
+
+    <div
+      class="mt-8 grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-6 fu"
+    >
+      {
+        slots.map(() => (
+          <div class="flex h-20 items-center justify-center rounded-[8px] border border-dashed border-navy/15 bg-white">
+            <span class="text-[10px] font-semibold uppercase tracking-[0.12em] text-navy/20">
+              Logo
+            </span>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-4 text-[12px] italic text-muted fu">
+      À compléter au fur et à mesure des signatures partenaires Sud.
+    </p>
+
+    <div class="mt-9 fu">
+      <a href={ctaHref} class="btn btn-primary">
+        {ctaLabel}
+        <ArrowRight class="h-4 w-4" />
+      </a>
+    </div>
+  </div>
+</section>

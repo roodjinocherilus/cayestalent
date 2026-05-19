@@ -1,0 +1,64 @@
+---
+/**
+ * Timeline verticale (parcours candidat, déroulé entreprise…).
+ * Doc 03 §5 (7 étapes) / §6.
+ */
+interface Step {
+  title: string;
+  text?: string;
+  tag?: string;
+}
+interface Props {
+  steps: Step[];
+  tone?: 'light' | 'dark';
+  numbered?: boolean;
+}
+const { steps, tone = 'light', numbered = true } = Astro.props;
+const isDark = tone === 'dark';
+const lineColor = isDark ? 'bg-white/12' : 'bg-line';
+const titleColor = isDark ? 'text-white' : 'text-navy';
+const textColor = isDark ? 'text-white/55' : 'text-ink';
+---
+
+<ol class="relative flex flex-col">
+  {
+    steps.map((s, i) => (
+      <li class="relative flex gap-5 pb-9 last:pb-0 fu">
+        {i < steps.length - 1 && (
+          <span
+            class:list={['absolute left-[17px] top-9 bottom-0 w-[2px]', lineColor]}
+            aria-hidden="true"
+          />
+        )}
+        <span
+          class="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange font-display text-[14px] font-extrabold text-white"
+          style="font-family: var(--font-display);"
+          aria-hidden="true"
+        >
+          {numbered ? i + 1 : ''}
+        </span>
+        <div class="pt-1">
+          {s.tag && (
+            <span class="mb-1.5 inline-block rounded-[3px] bg-orange/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-orange">
+              {s.tag}
+            </span>
+          )}
+          <h3
+            class:list={[
+              'font-display text-[17px] font-bold sm:text-[19px]',
+              titleColor,
+            ]}
+            style="font-family: var(--font-display);"
+          >
+            {s.title}
+          </h3>
+          {s.text && (
+            <p class:list={['mt-1.5 text-[14px] leading-[1.65]', textColor]}>
+              {s.text}
+            </p>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ol>

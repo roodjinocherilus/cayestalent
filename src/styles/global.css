@@ -1,0 +1,280 @@
+@import 'tailwindcss';
+
+/* ───────────────────────────────────────────────────────────────
+   Design system — repris à l'identique de captalentlab.com
+   (même famille visuelle, écosystème ZLC / Cap Talent Lab).
+   ─────────────────────────────────────────────────────────────── */
+@theme {
+  --color-navy: #002548;
+  --color-navy-mid: #0d3460;
+  --color-sky: #30a1fc;
+  --color-sky-light: #a2c4df;
+  --color-orange: #ff5d21;
+  --color-orange-dark: #e04a10;
+  --color-sand: #f4efe6;
+  --color-muted: #7a8fa8; /* gris texte secondaire */
+  --color-cloud: #f0f4fa; /* gris très clair */
+  --color-section: #f0f5fc; /* fond sections claires */
+  --color-ink: #3a4d66; /* texte corps sur fond clair */
+  --color-line: #e8eff8; /* bordures claires */
+  --color-field: #dde7f2; /* bordures champs */
+
+  --font-display: 'Syne Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, sans-serif;
+}
+
+/* ─── Base ─── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    min-width: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-navy);
+    background: #ffffff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* ─── Primitives (miroir des classes captalentlab) ─── */
+@layer components {
+  /* Section : padding 96px 6vw, full-bleed comme le site source. */
+  .section {
+    padding: 96px 6vw;
+  }
+  @media (max-width: 600px) {
+    .section {
+      padding: 64px 5vw;
+    }
+  }
+
+  .section-pad-x {
+    padding-inline: 6vw;
+  }
+  @media (max-width: 600px) {
+    .section-pad-x {
+      padding-inline: 5vw;
+    }
+  }
+
+  /* Eyebrow : libellé orange uppercase précédé d'un filet. */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-orange);
+  }
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-orange);
+  }
+  .on-dark .eyebrow,
+  .eyebrow.on-dark {
+    color: var(--color-orange);
+  }
+
+  /* Titre de section. */
+  .h-section {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--color-navy);
+  }
+  .on-dark .h-section {
+    color: #ffffff;
+  }
+
+  /* Boutons. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 6px;
+    border: 1.5px solid transparent;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s,
+      transform 0.2s;
+  }
+  .btn-primary {
+    background: var(--color-orange);
+    color: #ffffff;
+  }
+  .btn-primary:hover {
+    background: var(--color-orange-dark);
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--color-navy);
+    border-color: var(--color-navy);
+  }
+  .btn-outline:hover {
+    background: var(--color-navy);
+    color: #ffffff;
+  }
+  .btn-outline.on-dark {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .btn-outline.on-dark:hover {
+    background: #ffffff;
+    color: var(--color-navy);
+    border-color: #ffffff;
+  }
+  .btn-block {
+    display: flex;
+    width: 100%;
+  }
+
+  /* Carte standard (fond clair). */
+  .card {
+    border: 1.5px solid var(--color-line);
+    border-radius: 12px;
+    background: #ffffff;
+    transition:
+      border-color 0.2s,
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+  .card:hover {
+    border-color: var(--color-sky);
+    transform: translateY(-2px);
+  }
+
+  /* Champs de formulaire. */
+  .field {
+    width: 100%;
+    padding: 11px 15px;
+    border: 1.5px solid var(--color-field);
+    border-radius: 6px;
+    background: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-navy);
+    outline: none;
+    appearance: none;
+    transition: border-color 0.2s;
+  }
+  .field:focus {
+    border-color: var(--color-sky);
+  }
+  .field::placeholder {
+    color: #a8b8cc;
+  }
+
+  /* Lien d'évitement (orange, comme le site source). */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    z-index: 9999;
+    padding: 10px 20px;
+    background: var(--color-orange);
+    color: #ffffff;
+    border-radius: 0 0 6px 0;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.2s;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+}
+
+/* ─── Animation fade-up (.fu → .vis), staggered comme la source ─── */
+@layer utilities {
+  .fu {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.65s ease,
+      transform 0.65s ease;
+    will-change: opacity, transform;
+  }
+  .fu.vis {
+    opacity: 1;
+    transform: none;
+  }
+  .fu-d1 {
+    transition-delay: 0.1s;
+  }
+  .fu-d2 {
+    transition-delay: 0.2s;
+  }
+  .fu-d3 {
+    transition-delay: 0.3s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .fu {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,98 @@
+---
+// Page Presse — salle de presse locale. Doc 03 §9.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+import { ArrowRight, Download } from '@lucide/astro';
+import { ecosystem } from '@/config/site';
+---
+
+<BaseLayout
+  title="Presse"
+  description="Salle de presse Cayes Talent Lab : contact presse Sud, dossier de presse, communiqués, kit médias."
+>
+  <PageHero
+    eyebrow="Presse"
+    title={'Salle de <span class="text-sky">presse</span>'}
+    subtitle="Tous les éléments pour couvrir Cayes Talent Lab dans le Sud."
+    ghost="MÉDIAS"
+  />
+
+  <section class="section bg-white">
+    <div class="mx-auto grid max-w-[1100px] gap-6 md:grid-cols-2">
+      <Card class="fu">
+        <div class="eyebrow">Contact presse — Sud</div>
+        <p class="text-[15px] leading-[1.7] text-ink">
+          [Contact presse local Sud à désigner — nom, fonction, e-mail,
+          téléphone, WhatsApp]
+        </p>
+      </Card>
+      <Card class="fu fu-d1">
+        <div class="eyebrow">Dossier de presse</div>
+        <p class="text-[15px] leading-[1.7] text-ink">
+          Dossier de presse Cayes Talent Lab — <em>à venir</em>.
+        </p>
+      </Card>
+      <Card class="fu">
+        <div class="eyebrow">Communiqués de presse</div>
+        <p class="text-[15px] leading-[1.7] text-ink">
+          [Liste chronologique inversée — aucun communiqué publié pour
+          l'instant]
+        </p>
+      </Card>
+      <Card class="fu fu-d1">
+        <div class="eyebrow">Kit médias Cayes</div>
+        <ul class="mt-1 flex flex-col gap-2 text-[14px] text-navy">
+          <li>
+            <a
+              href="/images/logos/cayes-talent-lab-color.png"
+              download
+              class="inline-flex items-center gap-2 font-medium text-sky hover:underline"
+            >
+              <Download class="h-4 w-4" /> Logo couleur (PNG)
+            </a>
+          </li>
+          <li>
+            <a
+              href="/images/logos/cayes-talent-lab-white.png"
+              download
+              class="inline-flex items-center gap-2 font-medium text-sky hover:underline"
+            >
+              <Download class="h-4 w-4" /> Logo blanc (PNG)
+            </a>
+          </li>
+          <li class="text-muted">[Photos locales — à fournir]</li>
+        </ul>
+      </Card>
+    </div>
+  </section>
+
+  <section class="section bg-section">
+    <div class="mx-auto max-w-[1000px]">
+      <div class="eyebrow fu">Retombées médias — Sud</div>
+      <h2 class="h-section fu">Ils en ont parlé</h2>
+      <p class="mt-5 text-[15px] italic text-muted fu">
+        [Articles et reportages publiés — à référencer au fil des retombées]
+      </p>
+    </div>
+  </section>
+
+  <section class="section on-dark bg-navy">
+    <div class="mx-auto max-w-[760px] text-center">
+      <p class="text-[18px] leading-[1.7] text-white/70 fu">
+        Pour la couverture nationale, rendez-vous sur la salle de presse
+        du programme.
+      </p>
+      <div class="mt-7 fu">
+        <a
+          href={`${ecosystem.haitiTalentLab}/presse`}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline on-dark"
+        >
+          Salle de presse nationale <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,64 @@
+---
+/**
+ * Logo officiel Cayes Talent Lab (emblème cathédrale + wordmark).
+ * - tone="light" → version blanche (fonds sombres : header, footer)
+ * - tone="dark"  → version couleur (fonds clairs)
+ */
+import { site } from '@/config/site';
+
+interface Props {
+  tone?: 'light' | 'dark';
+  withMention?: boolean;
+  /** Hauteur du logo en px (largeur auto, ratio ~2.18:1). */
+  height?: number;
+  class?: string;
+}
+
+const {
+  tone = 'light',
+  withMention = true,
+  height = 44,
+  class: className = '',
+} = Astro.props;
+
+const src =
+  tone === 'light'
+    ? '/images/logos/cayes-talent-lab-white.png'
+    : '/images/logos/cayes-talent-lab-color.png';
+
+const ratio = 2289 / 1048;
+const w = Math.round(height * ratio);
+
+const mentionColor = tone === 'light' ? 'text-white/45' : 'text-muted';
+const dividerColor = tone === 'light' ? 'border-white/20' : 'border-navy/15';
+---
+
+<a
+  href="/"
+  class:list={['group inline-flex items-center gap-3.5', className]}
+  aria-label={`${site.name} — accueil`}
+>
+  <img
+    src={src}
+    alt={site.name}
+    width={w}
+    height={height}
+    style={`height:${height}px;width:auto`}
+    class="block shrink-0 transition-transform group-hover:scale-[1.03]"
+    decoding="async"
+    fetchpriority="high"
+  />
+  {
+    withMention && (
+      <span
+        class:list={[
+          'hidden max-w-[140px] border-l pl-3.5 text-[10px] font-medium uppercase leading-[1.4] tracking-[0.13em] lg:block',
+          dividerColor,
+          mentionColor,
+        ]}
+      >
+        {site.editionMention}
+      </span>
+    )
+  }
+</a>

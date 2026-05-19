@@ -1,0 +1,29 @@
+---
+/** Carte générique (primitive .card). Bande d'accent optionnelle à gauche. */
+interface Props {
+  accent?: 'none' | 'sky' | 'orange';
+  class?: string;
+  padding?: string;
+}
+const { accent = 'none', class: className = '', padding = 'p-8' } = Astro.props;
+const stripe =
+  accent === 'sky'
+    ? 'before:bg-sky'
+    : accent === 'orange'
+      ? 'before:bg-orange'
+      : '';
+const hasStripe = accent !== 'none';
+---
+
+<div
+  class:list={[
+    'card relative overflow-hidden',
+    padding,
+    hasStripe &&
+      `before:absolute before:inset-y-0 before:left-0 before:w-1 ${stripe}`,
+    hasStripe && 'pl-9',
+    className,
+  ]}
+>
+  <slot />
+</div>

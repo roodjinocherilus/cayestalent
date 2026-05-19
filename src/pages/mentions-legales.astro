@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import { org } from '@/config/site';
+---
+
+<BaseLayout title="Mentions légales" noindex>
+  <PageHero eyebrow="Légal" title="Mentions légales" />
+  <section class="section bg-white">
+    <div class="mx-auto max-w-[760px] text-[15px] leading-[1.8] text-ink">
+      <p class="fu">
+        Éditeur du site : {org.name}. Contenu à compléter (raison sociale,
+        siège, responsable de publication, hébergeur).
+      </p>
+      <p class="mt-4 italic text-muted fu">
+        [Mentions légales définitives à fournir par ZLC.]
+      </p>
+    </div>
+  </section>
+</BaseLayout>

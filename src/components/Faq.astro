@@ -1,0 +1,55 @@
+---
+/**
+ * FAQ accordéon. Le doc 03 ne fournit que les questions (pas les
+ * réponses) → réponses en placeholder explicite à compléter avec ZLC,
+ * conformément à la règle « ne rien inventer ».
+ */
+interface Item {
+  q: string;
+  a?: string;
+}
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  items: Item[];
+}
+const {
+  eyebrow = 'Questions fréquentes',
+  title = 'FAQ',
+  items,
+} = Astro.props;
+---
+
+<section class="section bg-section">
+  <div class="mx-auto max-w-[820px]">
+    <div class="eyebrow fu">{eyebrow}</div>
+    <h2 class="h-section fu">{title}</h2>
+
+    <div class="mt-9 flex flex-col gap-3">
+      {
+        items.map((it) => (
+          <details class="group rounded-[10px] border border-line bg-white fu">
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-5 text-[16px] font-semibold text-navy [&::-webkit-details-marker]:hidden">
+              {it.q}
+              <span
+                class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-navy/5 text-navy transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] leading-[1.7] text-ink">
+              {it.a ? (
+                it.a
+              ) : (
+                <span class="italic text-muted">
+                  [Réponse à compléter avec ZLC]
+                </span>
+              )}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

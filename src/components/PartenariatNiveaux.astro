@@ -1,0 +1,71 @@
+---
+/**
+ * Bloc #3 — Niveaux de partenariat (placeholder). Doc 01 §4.
+ * Montants & contreparties à arrêter avec ZLC → placeholders explicites.
+ */
+import { Download } from '@lucide/astro';
+
+const tiers = [
+  { name: 'Platinum', accent: true },
+  { name: 'Gold', accent: false },
+  { name: 'Silver', accent: false },
+  { name: 'Bronze', accent: false },
+];
+---
+
+<section class="section bg-white">
+  <div class="mx-auto max-w-[1200px]">
+    <div class="eyebrow fu">Devenir partenaire</div>
+    <h2 class="h-section fu">Niveaux de partenariat</h2>
+    <p class="mt-4 max-w-[600px] text-[15px] leading-[1.7] text-ink fu">
+      Montants et contreparties à finaliser avec Zero Loss Consulting.
+    </p>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        tiers.map((t) => (
+          <div
+            class:list={[
+              'card flex flex-col p-7 fu',
+              t.accent && '!border-orange',
+            ]}
+          >
+            <span
+              class:list={[
+                'font-display text-[20px] font-extrabold uppercase tracking-[0.04em]',
+                t.accent ? 'text-orange' : 'text-navy',
+              ]}
+              style="font-family: var(--font-display);"
+            >
+              {t.name}
+            </span>
+            <span class="mt-3 font-display text-[26px] font-bold text-navy">
+              [Montant]
+            </span>
+            <span class="mt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">
+              Contreparties
+            </span>
+            <ul class="mt-3 flex flex-1 flex-col gap-2 text-[13px] text-ink">
+              <li>• [À définir avec ZLC]</li>
+              <li>• [À définir avec ZLC]</li>
+              <li>• [À définir avec ZLC]</li>
+            </ul>
+            <span class="btn btn-outline mt-6 cursor-default opacity-60">
+              Choisir
+            </span>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-9 fu">
+      <span class="btn btn-primary cursor-default opacity-70">
+        <Download class="h-4 w-4" />
+        Télécharger le dossier de partenariat (PDF)
+      </span>
+      <p class="mt-2 text-[12px] italic text-muted">
+        Dossier PDF à venir — à fournir par ZLC.
+      </p>
+    </div>
+  </div>
+</section>
