@@ -19,9 +19,9 @@
   --color-line: #e8eff8; /* bordures claires */
   --color-field: #dde7f2; /* bordures champs */
 
-  --font-display: 'Syne Variable', ui-sans-serif, system-ui, sans-serif;
-  /* Police dédiée au grand titre du hero uniquement. */
-  --font-hero: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  /* Police de titres unique sur tout le site (remplace Syne). */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui,
+    sans-serif;
   --font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', Roboto, sans-serif;
 }
